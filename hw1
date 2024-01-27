@@ -1,0 +1,26 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+
+driver = webdriver.Chrome()
+driver.maximize_window()
+driver.get('https://www.python.org//')
+elem = driver.find_element(By.NAME, 'q')
+elem.click()
+elem.send_keys('download')
+elem.send_keys(Keys.ENTER)
+time.sleep(3)
+driver.save_screenshot('search_download.png')
+current_url = driver.current_url
+print(current_url)
+elem = driver.find_element(By.NAME, 'q')
+elem.clear()
+elem.send_keys('Python News')
+elem.send_keys(Keys.ENTER)
+driver.save_screenshot('search_Python_News.png')
+driver.back()
+time.sleep(3)
+driver.forward()
+time.sleep(3)
+driver.quit()
