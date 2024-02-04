@@ -1,0 +1,37 @@
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+@pytest.fixture
+def driver():
+    url = 'https://www.globalsqa.com/angularJs-protractor/BankingProject/#/customer'
+    driver = webdriver.Chrome()
+    driver.get(url)
+    driver.implicitly_wait(5)
+
+    yield driver
+    driver.quit()
+
+def test_case_with_user(driver):
+    selected_customer = 'Hermoine Granger'
+    customer_dropdown = Select(driver.find_element(By.XPATH, '//*[@id="userSelect"]'))
+    customer_dropdown.select_by_visible_text(selected_customer)
+    button = driver.find_element(By.XPATH, '/html/body/div/div/div[2]/div/form/button')
+    button.click()
+    wait = WebDriverWait(driver, timeout=10)
+    elem = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div/div/div[2]/div/div[3]/button[1]')))
+    driver.save_screenshot(f'customer_name_{selected_customer}.png')
+
+def test_case_with_no_user(driver):
+    try:
+        selected_customer = '---Your Name---'
+        customer_dropdown = Select(driver.find_element(By.XPATH, '//*[@id="userSelect"]'))
+        customer_dropdown.select_by_visible_text(selected_customer)
+        button = driver.find_element(By.XPATH, '/html/body/div/div/div[2]/div/form/button')
+        button.click()
+    except: button = False
+    driver.save_screenshot(f'customer_name_{selected_customer}.png')
+    assert button == False
