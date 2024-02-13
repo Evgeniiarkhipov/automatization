@@ -1,0 +1,11 @@
+class Book:
+    def __init__(self, name, author, genre):
+        self.name = name
+        self.author = author
+        self.genre = genre
+
+    def show(self):
+        print(f'Имя - {self.name}, Автор - {self.author}, Жанр - {self.genre}')
+
+first_book = Book('Привет', 'Вася Пупкин', 'Драма')
+first_book.show()
