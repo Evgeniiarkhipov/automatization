@@ -1,0 +1,13 @@
+*** Settings ***
+Documentation   Сalculation of the required amount of gasoline
+Library     SeleniumLibrary
+
+*** Test Cases ***
+Сalculation of the required amount of gasoline
+    Open browser    https://calcus.ru/kalkulyator-rashoda-topliva
+    Input text    name:average_consumption     50
+    Input text    name:distance    500
+    Input text    name:cost    50
+    Click button    class:calc-submit
+    Sleep  2 seconds
+    Close browser
